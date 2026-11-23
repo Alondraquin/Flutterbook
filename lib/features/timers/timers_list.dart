@@ -159,3 +159,82 @@ class _TimersListState extends State<TimersList> {
     );
   }
 }
+
+/// Banner displaying live countdown progress for the active [TimerPreset].
+class _ActiveCountdownBanner extends StatelessWidget {
+  final TimersModel model;
+  final TimerPreset preset;
+
+  const _ActiveCountdownBanner({
+    required this.model,
+    required this.preset,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final progress = preset.durationSeconds > 0
+        ? model.remainingSeconds / preset.durationSeconds
+        : 0.0;
+
+    return Card(
+      margin: const EdgeInsets.fromLTRB(12, 12, 12, 4),
+      color: Theme.of(context).colorScheme.primaryContainer,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          children: [
+            SizedBox(
+              width: 56,
+              height: 56,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  CircularProgressIndicator(
+                    value: progress.clamp(0.0, 1.0),
+                    strokeWidth: 5,
+                  ),
+                  const Icon(Icons.timer_outlined),
+                ],
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    preset.title,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  Text(
+                    TimerPreset.formatSeconds(model.remainingSeconds),
+                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                ],
+              ),
+            ),
+            IconButton.filled(
+              tooltip: model.isRunning ? 'Pause' : 'Resume',
+              onPressed: () {
+                if (model.isRunning) {
+                  model.pauseTimer();
+                } else {
+                  model.startTimer(preset);
+                }
+              },
+              icon: Icon(model.isRunning ? Icons.pause : Icons.play_arrow),
+            ),
+            const SizedBox(width: 8),
+            IconButton.outlined(
+              tooltip: 'Reset',
+              onPressed: () => model.resetTimer(preset),
+              icon: const Icon(Icons.refresh),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
