@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'features/timers/timers.dart';
+import 'features/timers/timers_model.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,8 +13,11 @@ import 'features/contacts/contacts.dart';
 import 'features/contacts/contacts_model.dart';
 import 'features/notes/notes.dart';
 import 'features/notes/notes_model.dart';
+import 'features/timers/timers.dart';
+import 'features/timers/timers_model.dart';
 import 'features/tasks/tasks.dart';
 import 'features/tasks/tasks_model.dart';
+
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
