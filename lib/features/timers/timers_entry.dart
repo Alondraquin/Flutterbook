@@ -225,3 +225,39 @@ class _TimersEntryState extends State<TimersEntry> {
     );
   }
 }
+
+/// Numeric dropdown selector for hours, minutes, or seconds.
+class _DurationDropdown extends StatelessWidget {
+  final String label;
+  final int value;
+  final int max;
+  final ValueChanged<int> onChanged;
+
+  const _DurationDropdown({
+    required this.label,
+    required this.value,
+    required this.max,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButtonFormField<int>(
+      initialValue: value,
+      decoration: InputDecoration(
+        labelText: label,
+        border: const OutlineInputBorder(),
+      ),
+      items: List.generate(
+        max + 1,
+        (index) => DropdownMenuItem(
+          value: index,
+          child: Text(index.toString().padLeft(2, '0')),
+        ),
+      ),
+      onChanged: (val) {
+        if (val != null) onChanged(val);
+      },
+    );
+  }
+}
