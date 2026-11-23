@@ -169,4 +169,12 @@ final _tabs = <_TabInfo>[
       child: const Tasks(),
     ),
   ),
+  (
+    title: 'Timers',
+    icon: Icons.timer,
+    view: ChangeNotifierProvider(
+      create: (_) => TimersModel()..loadData(notify: true),
+      child: const Timers(),
+    ),
+  ),
 ];
